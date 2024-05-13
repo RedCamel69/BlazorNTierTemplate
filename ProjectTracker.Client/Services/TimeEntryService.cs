@@ -35,5 +35,10 @@ namespace ProjectTracker.Client.Services
                 OnChange?.Invoke();
             }
         }
+
+        public async Task<TimeEntryResponse> GetTimeEntryById(int id)
+        {
+            return await _http.GetFromJsonAsync<TimeEntryResponse>($"api/timeentry/{id}");
+        }
     }
 }

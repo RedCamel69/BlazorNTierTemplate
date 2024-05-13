@@ -7,5 +7,6 @@ namespace ProjectTracker.Client.Services
         event Action? OnChange;
         public List<TimeEntryResponse> TimeEntries { get; set; }
         Task GetTimeEntriesByProject(int projectId);
+        Task<TimeEntryResponse> GetTimeEntryById(int id);
     }
 }

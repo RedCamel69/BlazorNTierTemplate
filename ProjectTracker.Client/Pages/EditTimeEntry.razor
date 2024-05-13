@@ -1,0 +1,39 @@
+﻿@page "/timeentry"
+@page "/timeentry/{id:int}"
+@inject ITimeEntryService TimeEntryService
+
+<h3>EditTimeEntry</h3>
+
+<EditForm Model="timeEntry">
+    <div>
+        <label for="startDate">Start</label>
+        <InputDate id="startDate" Type="InputDateType.DateTimeLocal"
+            @bind-Value="timeEntry.Start" class="form-control" />
+    </div>
+    <div>
+        <label for="endDate">Start</label>
+        <InputDate id="endDate" Type="InputDateType.DateTimeLocal"
+        @bind-Value="timeEntry.End" class="form-control" />
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    TimeEntryRequest timeEntry = new TimeEntryRequest();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id is not null)
+        {
+            var result = await TimeEntryService.GetTimeEntryById((int)Id);
+            timeEntry = new TimeEntryRequest
+                {
+                    End = result.End,
+                    Start = result.Start,
+                    ProjectId = result.Project.Id
+                };
+        }
+    }
+}
