@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectTracker.API.Data;
 
@@ -11,9 +12,11 @@ using ProjectTracker.API.Data;
 namespace ProjectTracker.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240513135146_ProjectDetailsAndUsers")]
+    partial class ProjectDetailsAndUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,7 @@ namespace ProjectTracker.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("ProjectTracker.Shared.Entities.ProjectDetails", b =>
@@ -76,7 +79,7 @@ namespace ProjectTracker.API.Migrations
                     b.HasIndex("ProjectId")
                         .IsUnique();
 
-                    b.ToTable("ProjectDetails", (string)null);
+                    b.ToTable("ProjectDetails");
                 });
 
             modelBuilder.Entity("ProjectTracker.Shared.Entities.TimeEntry", b =>
@@ -106,7 +109,7 @@ namespace ProjectTracker.API.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("TimeEntries", (string)null);
+                    b.ToTable("TimeEntries");
                 });
 
             modelBuilder.Entity("ProjectTracker.Shared.Entities.User", b =>
@@ -123,7 +126,7 @@ namespace ProjectTracker.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ProjectUser", b =>
@@ -138,7 +141,7 @@ namespace ProjectTracker.API.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("ProjectUser", (string)null);
+                    b.ToTable("ProjectUser");
                 });
 
             modelBuilder.Entity("ProjectTracker.Shared.Entities.ProjectDetails", b =>
