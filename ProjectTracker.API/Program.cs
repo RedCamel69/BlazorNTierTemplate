@@ -1,4 +1,5 @@
 using ProjectTracker.API.Repositories;
+using ProjectTracker.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ITimeEntryRepository, TimeEntryRepository>();
+builder.Services.AddScoped<ITimeEntryService, TimeEntryService>();
 
 var app = builder.Build();
 
