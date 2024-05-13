@@ -1,4 +1,5 @@
 ﻿using ProjectTracker.Shared.Models.TimeEntry;
+using Mapster;
 using System.Net.Http.Json;
 using static System.Net.WebRequestMethods;
 
@@ -39,6 +40,11 @@ namespace ProjectTracker.Client.Services
         public async Task<TimeEntryResponse> GetTimeEntryById(int id)
         {
             return await _http.GetFromJsonAsync<TimeEntryResponse>($"api/timeentry/{id}");
+        }
+
+        public async Task CreateTimeEntry(TimeEntryRequest request)
+        {
+            await _http.PostAsJsonAsync("api/timeentry/", request.Adapt<TimeEntryCreateRequest>());
         }
     }
 }
