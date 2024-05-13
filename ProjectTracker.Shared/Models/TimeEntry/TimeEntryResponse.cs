@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectTracker.Shared.Models.Project;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace ProjectTracker.Shared.Models.TimeEntry
 {
     public record struct TimeEntryResponse(
             int Id,
-            string Project,
+            ProjectResponse Project,
             DateTime Start,
             DateTime? End
         );
