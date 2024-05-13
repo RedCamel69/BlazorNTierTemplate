@@ -1,0 +1,6 @@
+@ProjectTracker.API_HostAddress = http://localhost:5201
+
+GET {{ProjectTracker.API_HostAddress}}/api/timeentry
+Accept: application/json
+
+###
