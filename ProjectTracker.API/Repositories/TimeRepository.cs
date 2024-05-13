@@ -36,16 +36,12 @@ namespace ProjectTracker.API.Repositories
 
         public async Task<List<TimeEntry>> GetAllTimeEntries()
         {
-            return await _context.TimeEntries
-                .Include(te => te.Project)
-                .ToListAsync();
+            return await _context.TimeEntries.ToListAsync();
         }
 
         public async Task<TimeEntry?> GetTimeEntryById(int id)
         {
-            var timeEntry = await _context.TimeEntries
-                .Include(te => te.Project)
-                .FirstOrDefaultAsync(te => te.Id == id);
+            var timeEntry = await _context.TimeEntries.FindAsync(id);
             return timeEntry;
         }
 
