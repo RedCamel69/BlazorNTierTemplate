@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker.Shared.Models.Project
 {
-    public record struct ProjectResponse(
-          int Id,
+    public record struct ProjectUpdateRequest(
              string Name,
-           string? Description,
-           DateTime? StartDate,
-           DateTime? EndDate
-      );
+             string? Description,
+             DateTime? StartDate,
+             DateTime? EndDate
+         );
 }
