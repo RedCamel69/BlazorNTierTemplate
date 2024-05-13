@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProjectTracker.API.Repositories;
 using ProjectTracker.Shared.Entities;
 
 namespace ProjectTracker.API.Controllers
@@ -8,26 +9,23 @@ namespace ProjectTracker.API.Controllers
     [ApiController]
     public class TimeEntryController : ControllerBase
     {
-        private static List<TimeEntry> _timeEntries = new List<TimeEntry>
+        private readonly ITimeEntryRepository _timeEntryRepo;
+
+        public TimeEntryController(ITimeEntryRepository timeEntryRepo)
         {
-            new TimeEntry
-            {
-                Id = 1,
-                Project = "Time Tracker App",
-                End = DateTime.Now.AddHours(1)
-            }
-        };
+            _timeEntryRepo = timeEntryRepo;
+        }
 
         [HttpGet]
         public ActionResult<List<TimeEntry>> GetAllTimeEntries()
         {
-            return Ok(_timeEntries);
+            return Ok(_timeEntryRepo.GetAllTimeEntries());
         }
+
         [HttpPost]
         public ActionResult<List<TimeEntry>> CreateTimeEntry(TimeEntry timeEntry)
         {
-            _timeEntries.Add(timeEntry);
-            return Ok(_timeEntries);
+            return Ok(_timeEntryRepo.CreateTimeEntry(timeEntry));
         }
     }
 }
