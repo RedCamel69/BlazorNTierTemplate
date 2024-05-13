@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.FluentUI.AspNetCore.Components;
+//using Microsoft.FluentUI.AspNetCore.Components;
 using ProjectTracker.Client;
 using ProjectTracker.Client.Services;
 
@@ -13,6 +13,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<ITimeEntryService, TimeEntryService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 
-builder.Services.AddFluentUIComponents();
+//builder.Services.AddFluentUIComponents();
 
 await builder.Build().RunAsync();
