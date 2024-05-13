@@ -2,7 +2,8 @@
 {
     public class TimeEntry : BaseEntity
     {
-        public required string Project { get; set; }
+        public int? ProjectId { get; set; }
+        public Project? Project { get; set; }
         public DateTime Start { get; set; } = DateTime.Now;
         public DateTime? End { get; set; }
     }
