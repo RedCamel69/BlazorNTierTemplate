@@ -6,6 +6,8 @@
 <PageTitle>Time Entries</PageTitle>
 <h3>Time Entries</h3>
 
+<ProjectSelector ProjectSelected="ProjectChanged" />
+
 <table>
     <thead>
         <tr>
@@ -71,5 +73,24 @@
 
         projectId = id;
         StateHasChanged();
+    }
+
+    private async Task ProjectChanged(int projectId)
+    {
+        List<TimeEntryResponse>? result = null;
+        if (projectId == 0)
+        {
+            result = await Http.GetFromJsonAsync<List<TimeEntryResponse>>("api/timeentry");
+        }
+        else
+        {
+            result = await Http
+                .GetFromJsonAsync<List<TimeEntryResponse>>($"api/timeentry/project/{projectId}");
+        }
+
+        if (result is not null)
+        {
+            timeEntries = result;
+        }
     }
 }
