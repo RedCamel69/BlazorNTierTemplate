@@ -6,11 +6,14 @@ namespace ProjectTracker.API.Repositories
     public class TimeEntryRepository : ITimeEntryRepository
     {
         private readonly DataContext _context;
+        private readonly IUserContextService _userContextService;
 
-        public TimeEntryRepository(DataContext context)
+        public TimeEntryRepository(DataContext context, IUserContextService userContextService)
         {
             _context = context;
+            _userContextService = userContextService;
         }
+
 
         public async Task<List<TimeEntry>> CreateTimeEntry(TimeEntry timeEntry)
         {
@@ -36,7 +39,11 @@ namespace ProjectTracker.API.Repositories
 
         public async Task<List<TimeEntry>> GetAllTimeEntries()
         {
-            return await _context.TimeEntries.ToListAsync();
+            var userId = _userContextService.GetUserId();
+            if (userId == null)
+                return new List<TimeEntry>();
+
+            return await _context.TimeEntries.Where(t => t.User.Id == userId).ToListAsync();
         }
 
         public async Task<List<TimeEntry>> GetTimeEntriesByProject(int projectId)
