@@ -17,6 +17,14 @@ namespace ProjectTracker.API.Repositories
 
         public async Task<List<TimeEntry>> CreateTimeEntry(TimeEntry timeEntry)
         {
+            var user = await _userContextService.GetUserAsync();
+            if (user == null)
+            {
+                throw new EntityNotFoundException("User was not found.");
+            }
+
+            timeEntry.User = user;
+
             _context.TimeEntries.Add(timeEntry);
             await _context.SaveChangesAsync();
 
