@@ -37,7 +37,8 @@ builder.Services.AddIdentity<User, IdentityRole>(
         options.Password.RequireUppercase = false;
         options.User.RequireUniqueEmail = false;
     })
-    .AddEntityFrameworkStores<DataContext>();
+    .AddEntityFrameworkStores<DataContext>()
+    .AddDefaultTokenProviders();
 
 //the following code registers authentication services and handlers for cookie and JWT bearer authentication schemes:
 //The AddAuthentication parameter JwtBearerDefaults.AuthenticationScheme is the name of the scheme to use by default when a specific scheme isn't requested.
@@ -57,7 +58,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ITimeEntryService, TimeEntryService>();
 builder.Services.AddScoped<ITimeEntryRepository, TimeEntryRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
