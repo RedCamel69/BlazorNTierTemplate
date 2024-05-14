@@ -13,6 +13,7 @@ namespace ProjectTracker.API.Data
         {
             modelBuilder.Entity<TimeEntry>().Navigation(c => c.Project).AutoInclude();
             modelBuilder.Entity<Project>().Navigation(c => c.ProjectDetails).AutoInclude();
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<TimeEntry> TimeEntries { get; set; }
