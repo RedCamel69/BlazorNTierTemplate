@@ -29,7 +29,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<User>(
+builder.Services.AddIdentity<User, IdentityRole>(
     options =>
     {
         options.Password.RequireNonAlphanumeric = false;
