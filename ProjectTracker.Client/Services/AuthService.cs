@@ -1,8 +1,10 @@
 ﻿using Blazored.Toast.Services;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using ProjectTracker.Shared.Models.Account;
 using ProjectTracker.Shared.Models.Login;
 using System.Net.Http.Json;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace ProjectTracker.Client.Services
 {
@@ -11,12 +13,20 @@ namespace ProjectTracker.Client.Services
         private readonly HttpClient _http;
         private readonly IToastService _toastService;
         private readonly NavigationManager _navigationManager;
+        private readonly ILocalStorageService _localStorage;
+        private readonly AuthenticationStateProvider _authStateProvider;
 
-        public AuthService(HttpClient http, IToastService toastService, NavigationManager navigationManager)
+        public AuthService(HttpClient http,
+            IToastService toastService,
+            NavigationManager navigationManager,
+            ILocalStorageService localStorage,
+            AuthenticationStateProvider authStateProvider)
         {
             _http = http;
             _toastService = toastService;
             _navigationManager = navigationManager;
+            _localStorage = localStorage;
+            _authStateProvider = authStateProvider;
         }
 
 
@@ -37,6 +47,12 @@ namespace ProjectTracker.Client.Services
                 else
                 {
                     _toastService.ShowSuccess("Login successful! :)");
+                    _navigationManager.NavigateTo("timeentries");
+                    if (response.Token != null)
+                    {
+                        await _localStorage.SetItemAsStringAsync("authToken", response.Token);
+                        await _authStateProvider.GetAuthenticationStateAsync();
+                    }
                     _navigationManager.NavigateTo("timeentries");
                 }
 
