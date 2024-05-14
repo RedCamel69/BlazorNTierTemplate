@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectTracker.API.Repositories;
 using ProjectTracker.API.Services;
@@ -9,6 +10,7 @@ namespace ProjectTracker.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TimeEntryController : ControllerBase
     {
         private readonly ITimeEntryService _timeEntryService;
