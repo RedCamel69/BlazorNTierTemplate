@@ -1,4 +1,6 @@
 ﻿@inject IProjectService ProjectService
+@inject AuthenticationStateProvider AuthStateProvider
+@implements IDisposable
 
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
@@ -22,8 +24,21 @@
 </CascadingAuthenticationState>
 
 @code {
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        //await ProjectService.LoadAllProjects();
+        AuthStateProvider.AuthenticationStateChanged += OnAuthStateChanged;
+    }
+    public async void OnAuthStateChanged(Task<AuthenticationState> task)
+    {
+        var state = await task;
+        if (state != null && state.User.Identity!.IsAuthenticated)
+        {
+            await ProjectService.LoadAllProjects();
+        }
+    }
+
+    public void Dispose()
+    {
+        AuthStateProvider.AuthenticationStateChanged -= OnAuthStateChanged;
     }
 }
