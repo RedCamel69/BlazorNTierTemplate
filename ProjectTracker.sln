@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3DF38FAC-0ED1-473C-9EFB-2BA267EC1E94}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		UsefulLInks.txt = UsefulLInks.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTracker.Client", "ProjectTracker.Client\ProjectTracker.Client.csproj", "{E1B3901C-F5E2-481A-B87F-7B915D324CAC}"
