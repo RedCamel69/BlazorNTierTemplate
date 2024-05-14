@@ -7,5 +7,7 @@ namespace ProjectTracker.Client.Services
     {
         Task Register(AccountRegistrationRequest request);
         Task Login(LoginRequest request);
+
+        Task Logout();
     }
 }
