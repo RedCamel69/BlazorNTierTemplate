@@ -1,6 +1,8 @@
-﻿namespace ProjectTracker.API.Data
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+namespace ProjectTracker.API.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -18,7 +20,8 @@
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<ProjectDetails> ProjectDetails { get; set; }
-        public DbSet<User> Users { get; set; }
+
+        //public DbSet<User> Users { get; set; }
 
     }
 }
