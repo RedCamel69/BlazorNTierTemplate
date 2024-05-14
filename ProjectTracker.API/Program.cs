@@ -1,5 +1,5 @@
 using Mapster;
-using ProjectTracker.API.Repositories;
+using Microsoft.AspNetCore.Identity;
 using ProjectTracker.Shared.Models.Project;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,19 +13,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<DataContext>();
+
 builder.Services.AddScoped<ITimeEntryService, TimeEntryService>();
 builder.Services.AddScoped<ITimeEntryRepository, TimeEntryRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
-
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", builder =>
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader());
-});
 
 var app = builder.Build();
 
@@ -39,8 +34,6 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 ConfigureMapster();
 
 app.UseHttpsRedirection();
-
-app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
