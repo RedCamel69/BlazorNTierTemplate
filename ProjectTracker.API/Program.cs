@@ -17,7 +17,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<User>()
+builder.Services.AddDefaultIdentity<User>(
+    options =>
+    {
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequireUppercase = false;
+        options.User.RequireUniqueEmail = false;
+    })
     .AddEntityFrameworkStores<DataContext>();
 
 //the following code registers authentication services and handlers for cookie and JWT bearer authentication schemes:
