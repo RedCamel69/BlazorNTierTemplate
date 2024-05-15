@@ -9,12 +9,12 @@
 @if(Id is null)
 {
     <PageTitle>Create a new Project</PageTitle>
-    <h3>Create a new Project</h3>
+    <h1 class="display-4">Create a new Project</h1>
 }
 else
 {
     <PageTitle>Edit the Project "@project.Name"</PageTitle>
-    <h3>Edit the Project "@project.Name"</h3>
+    <h1 class="display-4">Edit the Project "@project.Name"</h1>
 }
 
 <EditForm Model="project" OnValidSubmit="HandleSubmit">

@@ -31,13 +31,15 @@
     <TemplateColumn>
         <button class="btn btn-primary"
                 onclick="@(() => ShowProject(context.Project.Id))">
-            Show Project
+            View
+            <i class="bi bi-search"></i>
         </button>
     </TemplateColumn>
     <TemplateColumn>
         <button class="btn btn-primary"
                 onclick="@(() => EditTimeEntry(context.Id))">
-            <i class="oi oi-pencil" />
+                Edit
+            <i class="bi bi-pencil"></i>
         </button>
     </TemplateColumn>
 </QuickGrid>
