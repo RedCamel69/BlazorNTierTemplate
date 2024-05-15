@@ -4,15 +4,19 @@
 @inject ITimeEntryService TimeEntryService
 @inject NavigationManager NavigationManager
 @implements IDisposable
+@attribute [Authorize]
 
 <PageTitle>Time Entries</PageTitle>
 <h3>Time Entries Landing Page!</h3>
+
+<ProjectSelector />
 
 <button class="btn btn-primary mb-2" @onclick="CreateTimeEntry">
     Create Time Entry
 </button>
 
-<QuickGrid Items="FilteredTimeEntries" Pagination="@pagination">
+@* <QuickGrid Items="FilteredTimeEntries" Pagination="@pagination"> *@
+    <QuickGrid Items="FilteredTimeEntries">
     <PropertyColumn Property="t => t.Start" />
     <PropertyColumn Property="t => t.End" />
     <PropertyColumn Property="t => GetDuration(t.Start, t.End)" Title="Duration" />

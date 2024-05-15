@@ -2,3 +2,13 @@
 
 How to use Identity to secure a Web API backend for SPAs:
 https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization?view=aspnetcore-8.0
+
+
+HttpContext.User is only set when you have authentication for the method enabled.
+You can enable it by setting [Authorize] on your controller or action, or configure a global filter so all requests are authorized by default.
+
+
+api url - case sensitivity
+
+
+
