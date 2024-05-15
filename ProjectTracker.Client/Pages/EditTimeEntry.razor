@@ -9,11 +9,11 @@
 
 @if (Id is null)
 {
-    <h3>Create Time Entry</h3>
+    <h1 class="display-4">Create Time Entry</h1>
 }
 else
 {
-    <h3>Edit Time Entry</h3>
+    <h1 class="display-4">Edit Time Entry</h1>
 }
 
 <EditForm Model="timeEntry" OnValidSubmit="HandleSubmit">
