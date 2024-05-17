@@ -64,6 +64,18 @@ namespace ProjectTracker.API.Repositories
                 .Where(p => !p.IsDeleted && p.Users.Any(u => u.Id == userId)).ToListAsync();
         }
 
+        public async Task<List<Project>> GetAllProjects(int skip, int take)
+        {
+            var userId = _userContextService.GetUserId();
+            if (userId == null)
+            {
+                return new List<Project>();
+            }
+
+            return await _context.Projects.Skip(skip).Take(take)
+                .Where(p => !p.IsDeleted && p.Users.Any(u => u.Id == userId)).ToListAsync();
+        }
+
         public async Task<Project?> GetProjectById(int id)
         {
             var userId = _userContextService.GetUserId();

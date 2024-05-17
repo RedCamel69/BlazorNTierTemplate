@@ -38,6 +38,12 @@ namespace ProjectTracker.API.Services
             return result.Adapt<List<ProjectResponse>>();
         }
 
+        public async Task<List<ProjectResponse>> GetAllProjects(int skip, int take)
+        {
+            var result = await _projectRepo.GetAllProjects(skip,take);
+            return result.Adapt<List<ProjectResponse>>();
+        }
+
         public async Task<ProjectResponse?> GetProjectById(int id)
         {
             var result = await _projectRepo.GetProjectById(id);
