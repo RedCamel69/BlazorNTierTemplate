@@ -15,7 +15,8 @@
 
 <div class="container">
     <div class="row">
-        <QuickGrid Items="ProjectService.Projects.AsQueryable()" Pagination="@paginationState">
+        @* <QuickGrid Items="ProjectService.Projects.AsQueryable()" Pagination="@paginationState"> *@
+        <QuickGrid ItemsProvider="projectsProvider" Pagination="@paginationState">
             <PropertyColumn Property="p => p.Name" />
             <PropertyColumn Property="p => p.StartDate" Format="dd/MM/yyyy" Title="Start" />
             <PropertyColumn Property="p => p.EndDate" Format="dd/MM/yyyy" Title="End" />
@@ -57,7 +58,8 @@
 </div>
 @code {
     PaginationState paginationState = new PaginationState() { ItemsPerPage = 5 };
-    GridItemsProvider<ProjectRequest>? projectsProvider;
+    GridItemsProvider<ProjectResponse>? projectsProvider;
+
 
     RadzenChart ProjectsChart;
     bool showDataLabels = true;
@@ -69,6 +71,15 @@
         ProjectService.OnChange += UpdateChart;
 
         await ProjectService.LoadAllProjects();
+
+        projectsProvider = async req =>
+        {
+            await ProjectService.LoadAllProjects(req.StartIndex, req.Count);
+            var response = ProjectService.DisplayProjects;
+            return GridItemsProviderResult.From(items: response, totalItemCount: ProjectService.Projects.Count);
+        };
+
+        
     }
 
     private void CreateProject()

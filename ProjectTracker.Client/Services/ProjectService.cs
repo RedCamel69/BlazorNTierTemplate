@@ -15,6 +15,7 @@ namespace ProjectTracker.Client.Services
         }
 
         public List<ProjectResponse> Projects { get; set; } = new List<ProjectResponse>();
+        public List<ProjectResponse> DisplayProjects { get; set; } = new List<ProjectResponse>();
 
         public async Task LoadAllProjects()
         {
@@ -22,6 +23,16 @@ namespace ProjectTracker.Client.Services
             if (result != null)
             {
                 Projects = result;
+                OnChange?.Invoke();
+            }
+        }
+
+        public async Task LoadAllProjects(int skip, int? take)
+        {
+            var result = await _http.GetFromJsonAsync<List<ProjectResponse>>($"api/project/{skip}/{take}");
+            if (result != null)
+            {
+                DisplayProjects = result;
                 OnChange?.Invoke();
             }
         }
