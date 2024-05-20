@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ProjectTracker.API;
 using ProjectTracker.Shared.Models.Project;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
@@ -96,6 +97,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+//NB:if further migrations reqd comment out lkine below and run initial migration manually
+app.MigrateDatabase();
 app.Run();
 
 void ConfigureMapster()
