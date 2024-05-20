@@ -1,24 +1,36 @@
 ﻿@page "/login"
 @inject IAuthService AuthService
 
+
+
 <h1 class="display-4">Login</h1>
 
 <EditForm Model="loginRequest" OnValidSubmit="HandleSubmit">
-    <DataAnnotationsValidator />
-    <div>
-        <label for="name">Name</label>
-        <InputText id="name" @bind-Value="loginRequest.UserName" class="form-control" />
+
+    <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+        <RadzenFormField Name="UserName" Text="UserName" Style="width: 100%;">
+            <RadzenTextBox @bind-Value="loginRequest.UserName" Style="width: 100%;" />
+        </RadzenFormField>
         <ValidationMessage For="() => loginRequest.UserName" />
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <InputText id="password" type="password" @bind-Value="loginRequest.Password" class="form-control" />
+    </RadzenColumn>
+
+    <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+        <RadzenFormField Name="Password" Text="Password" Style="width: 100%;">
+            <RadzenTextBox @bind-Value="loginRequest.Password" Style="width: 100%;" />
+        </RadzenFormField>
         <ValidationMessage For="() => loginRequest.Password" />
-    </div>
-    <button type="submit" class="btn btn-primary mt-2">Login</button>
+    </RadzenColumn>
+    <br />
+    <RadzenButton Text="Login" ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" />
+
 </EditForm>
 
+
+
 @code {
+
+    string value = "";
+
     LoginRequest loginRequest = new LoginRequest();
 
     async Task HandleSubmit()
