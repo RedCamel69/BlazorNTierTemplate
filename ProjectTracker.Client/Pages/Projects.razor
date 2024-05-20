@@ -8,27 +8,78 @@
 <PageTitle>Projects</PageTitle>
 <h3>Projects</h3>
 
+
 <button class="btn btn-primary mb-2" @onclick="CreateProject">
     Create Project
 </button>
 
-<QuickGrid Items="ProjectService.Projects.AsQueryable()">
-    <PropertyColumn Property="p => p.Name" />
-    <PropertyColumn Property="p => p.StartDate" Format="dd/MM/yyyy" Title="Start" />
-    <PropertyColumn Property="p => p.EndDate" Format="dd/MM/yyyy" Title="End" />
-    <TemplateColumn>
-        <button class="btn btn-primary" onclick="@(() => EditProject(context.Id))">
-            Edit
-            <i class="bi bi-pencil" />
-        </button>
-    </TemplateColumn>
-</QuickGrid>
+<div class="container">
+    <div class="row">
+        @* <QuickGrid Items="ProjectService.Projects.AsQueryable()" Pagination="@paginationState"> *@
+        <QuickGrid ItemsProvider="projectsProvider" Pagination="@paginationState">
+            <PropertyColumn Property="p => p.Name" />
+            <PropertyColumn Property="p => p.StartDate" Format="dd/MM/yyyy" Title="Start" />
+            <PropertyColumn Property="p => p.EndDate" Format="dd/MM/yyyy" Title="End" />
+            <TemplateColumn>
+                <button class="btn btn-primary" onclick="@(() => EditProject(context.Id))">
+                    Edit
+                    <i class="bi bi-pencil" />
+                </button>
+            </TemplateColumn>
+        </QuickGrid>
 
+        <Paginator State="@paginationState"></Paginator>
+    </div>
+</div>
+
+
+<div class="container" style="background-color:azure">
+    <div class="row" style="background-color:aquamarine">
+        <div class="col-sm-12 col-lg-6 offset-lg-1 my-5" style="background-color:beige">
+          @*   <RadzenCard class="w-100 mb-4">
+                <RadzenCheckBox @bind-Value="@showDataLabels" Name="dataLabels"></RadzenCheckBox>
+                <RadzenLabel Text="Show Data Labels" Component="dataLabels" Style="margin-left: 8px; vertical-align: middle;" />
+            </RadzenCard> *@
+            <RadzenChart @ref="ProjectsChart">
+                <RadzenDonutSeries Data="@projects" CategoryProperty="Name" ValueProperty="Duration" TotalAngle="360" StartAngle="180">
+                    <ChildContent>
+                        <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                    </ChildContent>
+                    <TitleTemplate>
+                        <div class="rz-donut-content">
+                            <div>Hours</div>
+                            <div>per project</div>
+                        </div>
+                    </TitleTemplate>
+                </RadzenDonutSeries>
+            </RadzenChart>
+        </div>
+    </div>
+</div>
 @code {
+    PaginationState paginationState = new PaginationState() { ItemsPerPage = 5 };
+    GridItemsProvider<ProjectResponse>? projectsProvider;
+
+
+    RadzenChart ProjectsChart;
+    bool showDataLabels = true;
+    List<DataItem> projects;
+
     protected override async Task OnInitializedAsync()
     {
         ProjectService.OnChange += StateHasChanged;
+        ProjectService.OnChange += UpdateChart;
+
         await ProjectService.LoadAllProjects();
+
+        projectsProvider = async req =>
+        {
+            await ProjectService.LoadAllProjects(req.StartIndex, req.Count);
+            var response = ProjectService.DisplayProjects;
+            return GridItemsProviderResult.From(items: response, totalItemCount: ProjectService.Projects.Count);
+        };
+
+        
     }
 
     private void CreateProject()
@@ -45,4 +96,26 @@
     {
         ProjectService.OnChange -= StateHasChanged;
     }
+
+    public void UpdateChart()
+    {
+        projects = new List<DataItem>();
+        foreach(ProjectResponse projectResponse in ProjectService.Projects)
+        {
+            TimeSpan span = projectResponse.EndDate.Value.Subtract(projectResponse.StartDate.Value);
+            DataItem item = new DataItem() { Name = projectResponse.Name, Duration= span.Days*24+span.Hours };
+            projects.Add(item);
+        }
+        StateHasChanged();
+        projects = projects.ToList();
+        ProjectsChart.Reload();
+    }
+
+    class DataItem
+    {
+        public string Name { get; set; }
+        public int Duration { get; set; }
+    }
+
+   
 }

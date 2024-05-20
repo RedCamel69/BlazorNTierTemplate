@@ -23,6 +23,13 @@ namespace ProjectTracker.API.Controllers
             return Ok(await _projectService.GetAllProjects());
         }
 
+
+        [HttpGet("{skip}/{take}")]
+        public async Task<ActionResult<List<ProjectResponse>>> GetAllProjects(int skip, int take)
+        {
+            return Ok(await _projectService.GetAllProjects(skip, take));
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ProjectResponse>> GetProjectById(int id)
         {

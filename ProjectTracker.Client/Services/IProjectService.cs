@@ -8,7 +8,9 @@ namespace ProjectTracker.Client.Services
     {
         event Action? OnChange;
         public List<ProjectResponse> Projects { get; set; }
+        public List<ProjectResponse> DisplayProjects { get; set; }
         Task LoadAllProjects();
+        Task LoadAllProjects(int skip, int? take);
         Task<ProjectResponse> GetProjectById(int id);
         Task CreateProject(ProjectRequest request);
         Task UpdateProject(int id, ProjectRequest request);

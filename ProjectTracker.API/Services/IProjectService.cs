@@ -6,6 +6,7 @@ namespace ProjectTracker.API.Services
     {
         Task<ProjectResponse?> GetProjectById(int id);
         Task<List<ProjectResponse>> GetAllProjects();
+        Task<List<ProjectResponse>> GetAllProjects(int skip, int take);
         Task<List<ProjectResponse>> CreateProject(ProjectCreateRequest project);
         Task<List<ProjectResponse>?> UpdateProject(int id, ProjectUpdateRequest project);
         Task<List<ProjectResponse>?> DeleteProject(int id);
