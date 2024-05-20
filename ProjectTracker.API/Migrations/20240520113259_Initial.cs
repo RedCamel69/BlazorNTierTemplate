@@ -3,20 +3,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace ProjectTracker.API.Migrations
 {
     /// <inheritdoc />
-    public partial class Identity : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ProjectUser");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -54,6 +50,23 @@ namespace ProjectTracker.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Projects",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projects", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -102,8 +115,8 @@ namespace ProjectTracker.API.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -147,8 +160,8 @@ namespace ProjectTracker.API.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -160,6 +173,107 @@ namespace ProjectTracker.API.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ProjectId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProjectDetails_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectUser",
+                columns: table => new
+                {
+                    ProjectsId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectUser", x => new { x.ProjectsId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_ProjectUser_AspNetUsers_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProjectUser_Projects_ProjectsId",
+                        column: x => x.ProjectsId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TimeEntries",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProjectId = table.Column<int>(type: "int", nullable: true),
+                    Start = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    End = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TimeEntries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TimeEntries_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_TimeEntries_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "AdminAdmin-a24d-4543-a6c6-9443d048cdb9", null, "Admin", "ADMIN" },
+                    { "UserUser-a24d-4543-a6c6-9443d048cdb9", null, "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "AAAAAAAA-a24d-4543-a6c6-9443d048cdb9", 0, "e843959a-33d2-40a3-bbbb-aa75cd926e85", "admin@example.com", true, false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEJu72M+W3wE+YlxbjpwSBnR8LivD5Cxa/X8saI+h1kUAf2OL1TcEpjrhML6v5oKFGQ==", null, false, "", false, "admin@example.com" },
+                    { "ZZZZZZZZ-a24d-4543-a6c6-9443d048cdb9", 0, "c57d0f12-e1dc-4368-861a-8d4aa7fe3969", "user@example.com", true, false, null, "USER@EXAMPLE.COM", "USER@EXAMPLE.COM", "AQAAAAIAAYagAAAAEEQSX0M/TdKQDl9VtI4H9Wh1RwSFQzJsXqGQ5kw91n2qPwm24sltgNWL4vg15d5UhQ==", null, false, "", false, "user@example.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "AdminAdmin-a24d-4543-a6c6-9443d048cdb9", "AAAAAAAA-a24d-4543-a6c6-9443d048cdb9" },
+                    { "UserUser-a24d-4543-a6c6-9443d048cdb9", "ZZZZZZZZ-a24d-4543-a6c6-9443d048cdb9" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -200,6 +314,27 @@ namespace ProjectTracker.API.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectDetails_ProjectId",
+                table: "ProjectDetails",
+                column: "ProjectId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectUser_UsersId",
+                table: "ProjectUser",
+                column: "UsersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TimeEntries_ProjectId",
+                table: "TimeEntries",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TimeEntries_UserId",
+                table: "TimeEntries",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -221,52 +356,22 @@ namespace ProjectTracker.API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ProjectDetails");
+
+            migrationBuilder.DropTable(
+                name: "ProjectUser");
+
+            migrationBuilder.DropTable(
+                name: "TimeEntries");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjectUser",
-                columns: table => new
-                {
-                    ProjectsId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectUser", x => new { x.ProjectsId, x.UsersId });
-                    table.ForeignKey(
-                        name: "FK_ProjectUser_Projects_ProjectsId",
-                        column: x => x.ProjectsId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProjectUser_Users_UsersId",
-                        column: x => x.UsersId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectUser_UsersId",
-                table: "ProjectUser",
-                column: "UsersId");
+            migrationBuilder.DropTable(
+                name: "Projects");
         }
     }
 }

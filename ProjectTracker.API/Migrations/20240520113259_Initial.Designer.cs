@@ -12,8 +12,8 @@ using ProjectTracker.API.Data;
 namespace ProjectTracker.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240514090306_CustomUser")]
-    partial class CustomUser
+    [Migration("20240520113259_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,20 @@ namespace ProjectTracker.API.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "AdminAdmin-a24d-4543-a6c6-9443d048cdb9",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "UserUser-a24d-4543-a6c6-9443d048cdb9",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -105,12 +119,10 @@ namespace ProjectTracker.API.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -139,6 +151,18 @@ namespace ProjectTracker.API.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "AAAAAAAA-a24d-4543-a6c6-9443d048cdb9",
+                            RoleId = "AdminAdmin-a24d-4543-a6c6-9443d048cdb9"
+                        },
+                        new
+                        {
+                            UserId = "ZZZZZZZZ-a24d-4543-a6c6-9443d048cdb9",
+                            RoleId = "UserUser-a24d-4543-a6c6-9443d048cdb9"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -147,12 +171,10 @@ namespace ProjectTracker.API.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -317,6 +339,40 @@ namespace ProjectTracker.API.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "AAAAAAAA-a24d-4543-a6c6-9443d048cdb9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e843959a-33d2-40a3-bbbb-aa75cd926e85",
+                            Email = "admin@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
+                            NormalizedUserName = "ADMIN@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJu72M+W3wE+YlxbjpwSBnR8LivD5Cxa/X8saI+h1kUAf2OL1TcEpjrhML6v5oKFGQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@example.com"
+                        },
+                        new
+                        {
+                            Id = "ZZZZZZZZ-a24d-4543-a6c6-9443d048cdb9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c57d0f12-e1dc-4368-861a-8d4aa7fe3969",
+                            Email = "user@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER@EXAMPLE.COM",
+                            NormalizedUserName = "USER@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEQSX0M/TdKQDl9VtI4H9Wh1RwSFQzJsXqGQ5kw91n2qPwm24sltgNWL4vg15d5UhQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "user@example.com"
+                        });
                 });
 
             modelBuilder.Entity("ProjectUser", b =>
