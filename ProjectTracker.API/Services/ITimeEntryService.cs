@@ -1,14 +1,14 @@
-﻿using ProjectTracker.Shared.Models.TimeEntry;
+﻿using ProjectTracker.Shared.Models.ProjectTask;
 
 namespace ProjectTracker.API.Services
 {
-    public interface ITimeEntryService
+    public interface IProjectTaskService
     {
-        Task<TimeEntryResponse?> GetTimeEntryById(int id);
-        Task<List<TimeEntryResponse>> GetAllTimeEntries();
-        Task<List<TimeEntryResponse>> CreateTimeEntry(TimeEntryCreateRequest timeEntry);
-        Task<List<TimeEntryResponse>?> UpdateTimeEntry(int id, TimeEntryUpdateRequest timeEntry);
-        Task<List<TimeEntryResponse>?> DeleteTimeEntry(int id);
-        Task<List<TimeEntryResponse>> GetTimeEntriesByProject(int projectId);
+        Task<ProjectTaskResponse?> GetProjectTaskById(int id);
+        Task<List<ProjectTaskResponse>> GetAllProjectTasks();
+        Task<List<ProjectTaskResponse>> CreateProjectTask(ProjectTaskCreateRequest ProjectTask);
+        Task<List<ProjectTaskResponse>?> UpdateProjectTask(int id, ProjectTaskUpdateRequest ProjectTask);
+        Task<List<ProjectTaskResponse>?> DeleteProjectTask(int id);
+        Task<List<ProjectTaskResponse>> GetProjectTasksByProject(int projectId);
     }
 }

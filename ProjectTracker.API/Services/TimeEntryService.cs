@@ -2,65 +2,65 @@
 using ProjectTracker.API.Repositories;
 using ProjectTracker.Shared.Entities;
 using ProjectTracker.Shared.Exceptions;
-using ProjectTracker.Shared.Models.TimeEntry;
+using ProjectTracker.Shared.Models.ProjectTask;
 
 namespace ProjectTracker.API.Services
 {
-    public class TimeEntryService : ITimeEntryService
+    public class ProjectTaskService : IProjectTaskService
     {
-        private readonly ITimeEntryRepository _timeEntryRepo;
+        private readonly IProjectTaskRepository _ProjectTaskRepo;
 
-        public TimeEntryService(ITimeEntryRepository timeEntryRepo)
+        public ProjectTaskService(IProjectTaskRepository ProjectTaskRepo)
         {
-            _timeEntryRepo = timeEntryRepo;
+            _ProjectTaskRepo = ProjectTaskRepo;
         }
 
-        public async Task<List<TimeEntryResponse>> CreateTimeEntry(TimeEntryCreateRequest request)
+        public async Task<List<ProjectTaskResponse>> CreateProjectTask(ProjectTaskCreateRequest request)
         {
-            var newEntry = request.Adapt<TimeEntry>();
-            var result = await _timeEntryRepo.CreateTimeEntry(newEntry);
-            return result.Adapt<List<TimeEntryResponse>>();
+            var newEntry = request.Adapt<ProjectTask>();
+            var result = await _ProjectTaskRepo.CreateProjectTask(newEntry);
+            return result.Adapt<List<ProjectTaskResponse>>();
         }
 
-        public async Task<List<TimeEntryResponse>?> DeleteTimeEntry(int id)
+        public async Task<List<ProjectTaskResponse>?> DeleteProjectTask(int id)
         {
-            var result = await _timeEntryRepo.DeleteTimeEntry(id);
+            var result = await _ProjectTaskRepo.DeleteProjectTask(id);
             if (result is null)
             {
                 return null;
             }
-            return result.Adapt<List<TimeEntryResponse>>();
+            return result.Adapt<List<ProjectTaskResponse>>();
         }
 
-        public async Task<List<TimeEntryResponse>> GetAllTimeEntries()
+        public async Task<List<ProjectTaskResponse>> GetAllProjectTasks()
         {
-            var result = await _timeEntryRepo.GetAllTimeEntries();
-            return result.Adapt<List<TimeEntryResponse>>();
+            var result = await _ProjectTaskRepo.GetAllProjectTasks();
+            return result.Adapt<List<ProjectTaskResponse>>();
         }
 
-        public async Task<List<TimeEntryResponse>> GetTimeEntriesByProject(int projectId)
+        public async Task<List<ProjectTaskResponse>> GetProjectTasksByProject(int projectId)
         {
-            var result = await _timeEntryRepo.GetTimeEntriesByProject(projectId);           
-            return result.Adapt<List<TimeEntryResponse>>();
+            var result = await _ProjectTaskRepo.GetProjectTasksByProject(projectId);           
+            return result.Adapt<List<ProjectTaskResponse>>();
         }
 
-        public async Task<TimeEntryResponse?> GetTimeEntryById(int id)
+        public async Task<ProjectTaskResponse?> GetProjectTaskById(int id)
         {
-            var result = await _timeEntryRepo.GetTimeEntryById(id);
+            var result = await _ProjectTaskRepo.GetProjectTaskById(id);
             if (result is null)
             {
                 return null;
             }
-            return result.Adapt<TimeEntryResponse>();
+            return result.Adapt<ProjectTaskResponse>();
         }
 
-        public async Task<List<TimeEntryResponse>?> UpdateTimeEntry(int id, TimeEntryUpdateRequest request)
+        public async Task<List<ProjectTaskResponse>?> UpdateProjectTask(int id, ProjectTaskUpdateRequest request)
         {
             try
             {
-                var updatedEntry = request.Adapt<TimeEntry>();
-                var result = await _timeEntryRepo.UpdateTimeEntry(id, updatedEntry);
-                return result.Adapt<List<TimeEntryResponse>>();
+                var updatedEntry = request.Adapt<ProjectTask>();
+                var result = await _ProjectTaskRepo.UpdateProjectTask(id, updatedEntry);
+                return result.Adapt<List<ProjectTaskResponse>>();
             }
             catch (EntityNotFoundException)
             {

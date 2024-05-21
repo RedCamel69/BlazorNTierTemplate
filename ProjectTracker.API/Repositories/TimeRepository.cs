@@ -3,18 +3,18 @@ using ProjectTracker.Shared.Exceptions;
 
 namespace ProjectTracker.API.Repositories
 {
-    public class TimeEntryRepository : ITimeEntryRepository
+    public class ProjectTaskRepository : IProjectTaskRepository
     {
         private readonly DataContext _context;
         private readonly IUserContextService _userContextService;
 
-        public TimeEntryRepository(DataContext context, IUserContextService userContextService)
+        public ProjectTaskRepository(DataContext context, IUserContextService userContextService)
         {
             _context = context;
             _userContextService = userContextService;
         }
 
-        public async Task<List<TimeEntry>> CreateTimeEntry(TimeEntry timeEntry)
+        public async Task<List<ProjectTask>> CreateProjectTask(ProjectTask ProjectTask)
         {
             var user = await _userContextService.GetUserAsync();
             if (user == null)
@@ -22,43 +22,43 @@ namespace ProjectTracker.API.Repositories
                 throw new EntityNotFoundException("User was not found.");
             }
 
-            timeEntry.User = user;
+            ProjectTask.User = user;
 
-            _context.TimeEntries.Add(timeEntry);
+            _context.ProjectTasks.Add(ProjectTask);
             await _context.SaveChangesAsync();
 
-            return await GetAllTimeEntries();
+            return await GetAllProjectTasks();
         }
 
-        public async Task<List<TimeEntry>?> DeleteTimeEntry(int id)
+        public async Task<List<ProjectTask>?> DeleteProjectTask(int id)
         {
             var userId = _userContextService.GetUserId();
             if (userId == null)
                 return null;
 
-            var dbTimeEntry = await _context.TimeEntries
+            var dbProjectTask = await _context.ProjectTasks
                 .FirstOrDefaultAsync(t => t.Id == id && t.User.Id == userId);
-            if (dbTimeEntry is null)
+            if (dbProjectTask is null)
             {
                 return null;
             }
 
-            _context.TimeEntries.Remove(dbTimeEntry);
+            _context.ProjectTasks.Remove(dbProjectTask);
             await _context.SaveChangesAsync();
 
-            return await GetAllTimeEntries();
+            return await GetAllProjectTasks();
         }
 
-        public async Task<List<TimeEntry>> GetAllTimeEntries()
+        public async Task<List<ProjectTask>> GetAllProjectTasks()
         {
             var userId = _userContextService.GetUserId();
             if (userId == null)
-                return new List<TimeEntry>();
+                return new List<ProjectTask>();
 
-            return await _context.TimeEntries.Where(t => t.User.Id == userId).ToListAsync();
+            return await _context.ProjectTasks.Where(t => t.User.Id == userId).ToListAsync();
         }
 
-        public async Task<List<TimeEntry>> GetTimeEntriesByProject(int projectId)
+        public async Task<List<ProjectTask>> GetProjectTasksByProject(int projectId)
         {
             var userId = _userContextService.GetUserId();
             if (userId == null)
@@ -66,23 +66,23 @@ namespace ProjectTracker.API.Repositories
                 throw new EntityNotFoundException("User was not found.");
             }
 
-            return await _context.TimeEntries
+            return await _context.ProjectTasks
                 .Where(te => te.ProjectId == projectId && te.User.Id == userId)
                 .ToListAsync();
         }
 
-        public async Task<TimeEntry?> GetTimeEntryById(int id)
+        public async Task<ProjectTask?> GetProjectTaskById(int id)
         {
             var userId = _userContextService.GetUserId();
             if (userId == null)
                 return null;
 
-            var timeEntry = await _context.TimeEntries
+            var ProjectTask = await _context.ProjectTasks
                 .FirstOrDefaultAsync(t => t.Id == id && t.User.Id == userId);
-            return timeEntry;
+            return ProjectTask;
         }
 
-        public async Task<List<TimeEntry>> UpdateTimeEntry(int id, TimeEntry timeEntry)
+        public async Task<List<ProjectTask>> UpdateProjectTask(int id, ProjectTask ProjectTask)
         {
             var userId = _userContextService.GetUserId();
             if (userId == null)
@@ -90,21 +90,21 @@ namespace ProjectTracker.API.Repositories
                 throw new EntityNotFoundException("User was not found.");
             }
 
-            var dbTimeEntry = await _context.TimeEntries
+            var dbProjectTask = await _context.ProjectTasks
                 .FirstOrDefaultAsync(t => t.Id == id && t.User.Id == userId);
-            if (dbTimeEntry is null)
+            if (dbProjectTask is null)
             {
                 throw new EntityNotFoundException($"Entity with ID {id} was not found.");
             }
 
-            dbTimeEntry.ProjectId = timeEntry.ProjectId;
-            dbTimeEntry.Start = timeEntry.Start;
-            dbTimeEntry.End = timeEntry.End;
-            dbTimeEntry.DateUpdated = DateTime.Now;
+            dbProjectTask.ProjectId = ProjectTask.ProjectId;
+            dbProjectTask.Start = ProjectTask.Start;
+            dbProjectTask.End = ProjectTask.End;
+            dbProjectTask.DateUpdated = DateTime.Now;
 
             await _context.SaveChangesAsync();
 
-            return await GetAllTimeEntries();
+            return await GetAllProjectTasks();
         }
     }
 }

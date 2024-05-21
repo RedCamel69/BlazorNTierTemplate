@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectTracker.Shared.Models.TimeEntry
+namespace ProjectTracker.Shared.Models.ProjectTask
 {
-    public record struct TimeEntryCreateRequest(int ProjectId, DateTime Start, DateTime? End);
+    public record struct ProjectTaskCreateRequest(int ProjectId, DateTime Start, DateTime? End);
 }

@@ -11,14 +11,14 @@ GO
 BEGIN TRANSACTION;
 GO
 
-CREATE TABLE [TimeEntries] (
+CREATE TABLE [ProjectTasks] (
     [Id] int NOT NULL IDENTITY,
     [Project] nvarchar(max) NOT NULL,
     [Start] datetime2 NOT NULL,
     [End] datetime2 NULL,
     [DateCreated] datetime2 NOT NULL,
     [DateUpdated] datetime2 NULL,
-    CONSTRAINT [PK_TimeEntries] PRIMARY KEY ([Id])
+    CONSTRAINT [PK_ProjectTasks] PRIMARY KEY ([Id])
 );
 GO
 
@@ -36,12 +36,12 @@ DECLARE @var0 sysname;
 SELECT @var0 = [d].[name]
 FROM [sys].[default_constraints] [d]
 INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
-WHERE ([d].[parent_object_id] = OBJECT_ID(N'[TimeEntries]') AND [c].[name] = N'Project');
-IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [TimeEntries] DROP CONSTRAINT [' + @var0 + '];');
-ALTER TABLE [TimeEntries] DROP COLUMN [Project];
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[ProjectTasks]') AND [c].[name] = N'Project');
+IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [ProjectTasks] DROP CONSTRAINT [' + @var0 + '];');
+ALTER TABLE [ProjectTasks] DROP COLUMN [Project];
 GO
 
-ALTER TABLE [TimeEntries] ADD [ProjectId] int NULL;
+ALTER TABLE [ProjectTasks] ADD [ProjectId] int NULL;
 GO
 
 CREATE TABLE [Projects] (
@@ -55,10 +55,10 @@ CREATE TABLE [Projects] (
 );
 GO
 
-CREATE INDEX [IX_TimeEntries_ProjectId] ON [TimeEntries] ([ProjectId]);
+CREATE INDEX [IX_ProjectTasks_ProjectId] ON [ProjectTasks] ([ProjectId]);
 GO
 
-ALTER TABLE [TimeEntries] ADD CONSTRAINT [FK_TimeEntries_Projects_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [Projects] ([Id]);
+ALTER TABLE [ProjectTasks] ADD CONSTRAINT [FK_ProjectTasks_Projects_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [Projects] ([Id]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])

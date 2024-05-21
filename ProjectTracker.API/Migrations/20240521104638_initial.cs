@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjectTracker.API.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -198,6 +198,34 @@ namespace ProjectTracker.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProjectTasks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProjectId = table.Column<int>(type: "int", nullable: true),
+                    Start = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    End = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectTasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProjectTasks_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ProjectTasks_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProjectUser",
                 columns: table => new
                 {
@@ -221,34 +249,6 @@ namespace ProjectTracker.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "TimeEntries",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProjectId = table.Column<int>(type: "int", nullable: true),
-                    Start = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    End = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TimeEntries", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TimeEntries_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TimeEntries_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -263,8 +263,8 @@ namespace ProjectTracker.API.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "AAAAAAAA-a24d-4543-a6c6-9443d048cdb9", 0, "e843959a-33d2-40a3-bbbb-aa75cd926e85", "admin@example.com", true, false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEJu72M+W3wE+YlxbjpwSBnR8LivD5Cxa/X8saI+h1kUAf2OL1TcEpjrhML6v5oKFGQ==", null, false, "", false, "admin@example.com" },
-                    { "ZZZZZZZZ-a24d-4543-a6c6-9443d048cdb9", 0, "c57d0f12-e1dc-4368-861a-8d4aa7fe3969", "user@example.com", true, false, null, "USER@EXAMPLE.COM", "USER@EXAMPLE.COM", "AQAAAAIAAYagAAAAEEQSX0M/TdKQDl9VtI4H9Wh1RwSFQzJsXqGQ5kw91n2qPwm24sltgNWL4vg15d5UhQ==", null, false, "", false, "user@example.com" }
+                    { "AAAAAAAA-a24d-4543-a6c6-9443d048cdb9", 0, "964c5780-ab0c-45b5-b7d4-d19f6092da5d", "admin@example.com", true, false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEBt0n9ew+cg3j2WJJCWqkg6glkn6KnAsl8mRIoJZnhFJn4Oxz6ESVBnNHzAyt0ZDzg==", null, false, "", false, "admin@example.com" },
+                    { "ZZZZZZZZ-a24d-4543-a6c6-9443d048cdb9", 0, "b753644b-da24-41eb-b448-aa75cd5288c5", "user@example.com", true, false, null, "USER@EXAMPLE.COM", "USER@EXAMPLE.COM", "AQAAAAIAAYagAAAAENEsJruhh7G3rekuhTg9piiND02bMVKILPG7m2PVpUUWmMQ+HYt5g3v8hwgqIrQ1aw==", null, false, "", false, "user@example.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -322,19 +322,19 @@ namespace ProjectTracker.API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectUser_UsersId",
-                table: "ProjectUser",
-                column: "UsersId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TimeEntries_ProjectId",
-                table: "TimeEntries",
+                name: "IX_ProjectTasks_ProjectId",
+                table: "ProjectTasks",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeEntries_UserId",
-                table: "TimeEntries",
+                name: "IX_ProjectTasks_UserId",
+                table: "ProjectTasks",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectUser_UsersId",
+                table: "ProjectUser",
+                column: "UsersId");
         }
 
         /// <inheritdoc />
@@ -359,10 +359,10 @@ namespace ProjectTracker.API.Migrations
                 name: "ProjectDetails");
 
             migrationBuilder.DropTable(
-                name: "ProjectUser");
+                name: "ProjectTasks");
 
             migrationBuilder.DropTable(
-                name: "TimeEntries");
+                name: "ProjectUser");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
