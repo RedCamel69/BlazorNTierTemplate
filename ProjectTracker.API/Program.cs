@@ -67,6 +67,8 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IAccountService,AccountService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
+
 
 builder.Services.AddCors(options =>
 {

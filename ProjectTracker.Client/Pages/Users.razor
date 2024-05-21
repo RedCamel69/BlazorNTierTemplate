@@ -1,13 +1,29 @@
 ﻿@page "/users"
+@using ProjectTracker.Shared.Entities
 @implements IDisposable
+@inject IUsersService UsersService
+
 @attribute [Authorize(Roles = "Admin")]
 
 <h1 class="display-6">Users</h1>
 
+@foreach (User user in UsersService.Users)
+{
+    @user.Email
+    <br />
+}
+
 @code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        UsersService.OnChange += StateHasChanged;
+
+        UsersService.LoadAllUsers();
+    }
 
     public void Dispose()
     {
-        
+        UsersService.OnChange -= StateHasChanged;
     }
 }
