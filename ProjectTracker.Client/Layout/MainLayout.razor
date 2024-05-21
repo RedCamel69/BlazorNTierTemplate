@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<BlazoredToasts Timeout="10"
+@*<BlazoredToasts Timeout="10"
                 ShowProgressBar="true"
                 PauseProgressOnHover="true" />
 
@@ -20,4 +20,48 @@
             @Body
         </article>
     </main>
-</div>
+</div> *@
+<BlazoredToasts Timeout="10"
+                ShowProgressBar="true"
+                PauseProgressOnHover="true" />
+
+<RadzenLayout style="position: relative">
+    <RadzenHeader>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="5" JustifyContent="JustifyContent.SpaceBetween">
+            <RadzenSidebarToggle Click="@(() => sidebarExpanded = !sidebarExpanded)" />
+            <RadzenLabel Text="Project Tracker" />
+            <LoginDisplay />
+        </RadzenStack>      
+    </RadzenHeader>
+    <RadzenSidebar Responsive="false" @bind-Expanded="@sidebarExpanded" style="position: absolute">
+        <RadzenPanelMenu Click="@(() => sidebarExpanded = !sidebarExpanded)">
+            <RadzenPanelMenuItem Text="Home" Icon="home" Path="welcome"  />
+             <AuthorizeView Roles="Admin">
+                <Authorized>
+                    <RadzenPanelMenuItem Text="Users" Icon="account_box" Path="users" />
+                    <RadzenPanelMenuItem Text="Projects" Path="projects" Icon="save" />
+                </Authorized>
+            </AuthorizeView>
+              <AuthorizeView Roles="Admin, User">
+                <Authorized>
+                    <RadzenPanelMenuItem Text="Tasks" Path="tasks" Icon="list" />
+                </Authorized>
+
+            </AuthorizeView>
+        </RadzenPanelMenu>
+        <div class="rz-p-4">           
+        </div>
+    </RadzenSidebar>
+    <RadzenBody>
+        <div class="rz-p-4">
+            @Body
+        </div>
+    </RadzenBody>
+    <RadzenFooter>
+        &#169; Project Tracker
+    </RadzenFooter>
+</RadzenLayout>
+
+@code {
+    bool sidebarExpanded = false;
+}

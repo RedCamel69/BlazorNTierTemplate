@@ -1,18 +1,17 @@
-﻿@page "/"
-@page "/timeentries"
+﻿@page "/tasks"
 @using Microsoft.AspNetCore.Components.QuickGrid
 @inject ITimeEntryService TimeEntryService
 @inject NavigationManager NavigationManager
 @implements IDisposable
 @attribute [Authorize]
 
-<PageTitle>Time Entries</PageTitle>
-<h3>Time Entries Landing Page!</h3>
+<PageTitle>Tasks</PageTitle>
+<h1 class="display-6">Tasks</h1>
 
 <ProjectSelector />
 
-<button class="btn btn-primary mb-2" @onclick="CreateTimeEntry">
-    Create Time Entry
+<button class="btn btn-primary mb-2" @onclick="CreateTask">
+    Create Task
 </button>
 
 @* <QuickGrid Items="FilteredTimeEntries" Pagination="@pagination"> *@
@@ -105,13 +104,13 @@
         TimeEntryService.OnChange -= StateHasChanged;
     }
 
-    private void CreateTimeEntry()
+    private void CreateTask()
     {
-        NavigationManager.NavigateTo("/timeentry");
+        NavigationManager.NavigateTo("/task");
     }
 
     private void EditTimeEntry(int id)
     {
-        NavigationManager.NavigateTo($"/timeentry/{id}");
+        NavigationManager.NavigateTo($"/task/{id}");
     }
 }

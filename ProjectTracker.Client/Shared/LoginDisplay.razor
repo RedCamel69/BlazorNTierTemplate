@@ -1,10 +1,15 @@
 ﻿<AuthorizeView>
     <NotAuthorized>
+        <div class="border px-3 me-3">
         <a href="register">Register</a>
-        <a href="login">Log in</a>
+        <span> | </span>
+        <a href="login" class="text-nowrap">Log In</a>
+        </div>
     </NotAuthorized>
     <Authorized>
+         <div class="border px-3 me-3">
         Hello, @context.User.Identity!.Name!
         <a href="logout">Log Out</a>
+        </div>
     </Authorized>
 </AuthorizeView>

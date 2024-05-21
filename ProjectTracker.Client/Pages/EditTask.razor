@@ -1,5 +1,5 @@
-﻿@page "/timeentry"
-@page "/timeentry/{id:int}"
+﻿@page "/task"
+@page "/task/{id:int}"
 @inject ITimeEntryService TimeEntryService
 @inject IProjectService ProjectService
 @inject NavigationManager NavigationManager
@@ -9,11 +9,11 @@
 
 @if (Id is null)
 {
-    <h1 class="display-4">Create Time Entry</h1>
+    <h1 class="display-6">Create Task</h1>
 }
 else
 {
-    <h1 class="display-4">Edit Time Entry</h1>
+    <h1 class="display-6">Edit Task</h1>
 }
 
 <EditForm Model="timeEntry" OnValidSubmit="HandleSubmit">
@@ -78,12 +78,12 @@ else
         if (Id is null)
         {
             await TimeEntryService.CreateTimeEntry(timeEntry);
-            NavigationManager.NavigateTo("/timeentries");
+            NavigationManager.NavigateTo("/tasks");
         }
         else
         {
             await TimeEntryService.UpdateTimeEntry((int)Id, timeEntry);
-            NavigationManager.NavigateTo("/timeentries");
+            NavigationManager.NavigateTo("/tasks");
         }
     }
 
@@ -95,7 +95,7 @@ else
         @if (Id is not null && confirmed)
         {
             await TimeEntryService.DeleteTimeEntry((int)Id);
-            NavigationManager.NavigateTo("/timeentries");
+            NavigationManager.NavigateTo("/tasks");
         }
     }
 

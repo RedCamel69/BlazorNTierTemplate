@@ -1,0 +1,13 @@
+﻿@page "/users"
+@implements IDisposable
+@attribute [Authorize(Roles = "Admin")]
+
+<h1 class="display-6">Users</h1>
+
+@code {
+
+    public void Dispose()
+    {
+        
+    }
+}

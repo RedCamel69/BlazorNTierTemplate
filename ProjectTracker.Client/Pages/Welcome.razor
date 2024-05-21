@@ -1,0 +1,17 @@
+﻿@page "/"
+@page "/welcome"
+@attribute [Authorize]
+
+<AuthorizeView>
+    <Authorized>
+        <h1 class="display-3">Welcome to your Project Tracker App</h1>
+        <p>If you're an <strong>Admin</strong> you will be able to create Projects and Tasks against Projects..</p>
+        <p>If you're a <strong>User</strong> you will be able to create Tasks.</p>
+    </Authorized>
+</AuthorizeView>
+
+
+
+@code {
+
+}
