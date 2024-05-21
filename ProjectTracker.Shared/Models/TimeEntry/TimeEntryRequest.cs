@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectTracker.Shared.Models.TimeEntry
+namespace ProjectTracker.Shared.Models.ProjectTask
 {
-    public class TimeEntryRequest
+    public class ProjectTaskRequest
     {
         public int ProjectId { get; set; }
         public DateTime Start { get; set; } = DateTime.Now;

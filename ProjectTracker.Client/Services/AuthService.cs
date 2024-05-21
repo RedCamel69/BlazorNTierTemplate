@@ -47,13 +47,13 @@ namespace ProjectTracker.Client.Services
                 else
                 {
                     _toastService.ShowSuccess("Login successful! :)");
-                    _navigationManager.NavigateTo("timeentries");
+                    _navigationManager.NavigateTo("welcome");
                     if (response.Token != null)
                     {
                         await _localStorage.SetItemAsStringAsync("authToken", response.Token);
                         await _authStateProvider.GetAuthenticationStateAsync();
                     }
-                    _navigationManager.NavigateTo("timeentries");
+                    _navigationManager.NavigateTo("welcome");
                 }
 
             }

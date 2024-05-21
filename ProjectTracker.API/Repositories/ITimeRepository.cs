@@ -2,14 +2,14 @@
 
 namespace ProjectTracker.API.Repositories
 {
-    public interface ITimeEntryRepository
+    public interface IProjectTaskRepository
     {
-        Task<TimeEntry?> GetTimeEntryById(int id);
-        Task<List<TimeEntry>> GetAllTimeEntries();
-        Task<List<TimeEntry>> CreateTimeEntry(TimeEntry timeEntry);
-        Task<List<TimeEntry>?> UpdateTimeEntry(int id, TimeEntry timeEntry);
-        Task<List<TimeEntry>?> DeleteTimeEntry(int id);
+        Task<ProjectTask?> GetProjectTaskById(int id);
+        Task<List<ProjectTask>> GetAllProjectTasks();
+        Task<List<ProjectTask>> CreateProjectTask(ProjectTask ProjectTask);
+        Task<List<ProjectTask>?> UpdateProjectTask(int id, ProjectTask ProjectTask);
+        Task<List<ProjectTask>?> DeleteProjectTask(int id);
 
-        Task<List<TimeEntry>> GetTimeEntriesByProject(int projectId);
+        Task<List<ProjectTask>> GetProjectTasksByProject(int projectId);
     }
 }

@@ -1,59 +1,59 @@
-﻿using ProjectTracker.Shared.Models.TimeEntry;
+﻿using ProjectTracker.Shared.Models.ProjectTask;
 using Mapster;
 using System.Net.Http.Json;
 using static System.Net.WebRequestMethods;
 
 namespace ProjectTracker.Client.Services
 {
-    public class TimeEntryService : ITimeEntryService
+    public class ProjectTaskService : IProjectTaskService
     {
         private readonly HttpClient _http;
-        public List<TimeEntryResponse> TimeEntries { get; set; } = new List<TimeEntryResponse>();
+        public List<ProjectTaskResponse> ProjectTasks { get; set; } = new List<ProjectTaskResponse>();
 
         public event Action? OnChange;
 
-        public TimeEntryService(HttpClient http)
+        public ProjectTaskService(HttpClient http)
         {
             _http = http;
         }
 
-        public async Task GetTimeEntriesByProject(int projectId)
+        public async Task GetProjectTasksByProject(int projectId)
         {
-            List<TimeEntryResponse>? result = null;
+            List<ProjectTaskResponse>? result = null;
             if (projectId <= 0)
             {
-                result = await _http.GetFromJsonAsync<List<TimeEntryResponse>>("api/timeentry");
+                result = await _http.GetFromJsonAsync<List<ProjectTaskResponse>>("api/ProjectTask");
             }
             else
             {
-                result = await _http.GetFromJsonAsync<List<TimeEntryResponse>>($"api/timeentry/project/{projectId}");
+                result = await _http.GetFromJsonAsync<List<ProjectTaskResponse>>($"api/ProjectTask/project/{projectId}");
             }
 
             if (result != null)
             {
-                TimeEntries = result;
+                ProjectTasks = result;
                 OnChange?.Invoke();
             }
         }
 
-        public async Task<TimeEntryResponse> GetTimeEntryById(int id)
+        public async Task<ProjectTaskResponse> GetProjectTaskById(int id)
         {
-            return await _http.GetFromJsonAsync<TimeEntryResponse>($"api/timeentry/{id}");
+            return await _http.GetFromJsonAsync<ProjectTaskResponse>($"api/ProjectTask/{id}");
         }
 
-        public async Task CreateTimeEntry(TimeEntryRequest request)
+        public async Task CreateProjectTask(ProjectTaskRequest request)
         {
-            await _http.PostAsJsonAsync("api/timeentry/", request.Adapt<TimeEntryCreateRequest>());
+            await _http.PostAsJsonAsync("api/ProjectTask/", request.Adapt<ProjectTaskCreateRequest>());
         }
 
-        public async Task UpdateTimeEntry(int id, TimeEntryRequest request)
+        public async Task UpdateProjectTask(int id, ProjectTaskRequest request)
         {
-            await _http.PutAsJsonAsync($"api/timeentry/{id}", request.Adapt<TimeEntryUpdateRequest>());
+            await _http.PutAsJsonAsync($"api/ProjectTask/{id}", request.Adapt<ProjectTaskUpdateRequest>());
         }
 
-        public async Task DeleteTimeEntry(int id)
+        public async Task DeleteProjectTask(int id)
         {
-            await _http.DeleteAsync($"api/timeentry/{id}");
+            await _http.DeleteAsync($"api/ProjectTask/{id}");
         }
     }
 }

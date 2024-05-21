@@ -1,6 +1,6 @@
-﻿@page "/timeentry"
-@page "/timeentry/{id:int}"
-@inject ITimeEntryService TimeEntryService
+﻿@page "/task"
+@page "/task/{id:int}"
+@inject IProjectTaskService ProjectTaskService
 @inject IProjectService ProjectService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
@@ -9,39 +9,39 @@
 
 @if (Id is null)
 {
-    <h1 class="display-4">Create Time Entry</h1>
+    <h1 class="display-6">Create Task</h1>
 }
 else
 {
-    <h1 class="display-4">Edit Time Entry</h1>
+    <h1 class="display-6">Edit Task</h1>
 }
 
-<EditForm Model="timeEntry" OnValidSubmit="HandleSubmit">
+<EditForm Model="ProjectTask" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
     <div>
         <label for="startDate">Start</label>
         <InputDate id="startDate" Type="InputDateType.DateTimeLocal"
-                   @bind-Value="timeEntry.Start" class="form-control" />
+                   @bind-Value="ProjectTask.Start" class="form-control" />
     </div>
     <div>
         <label for="endDate">Start</label>
         <InputDate id="endDate" Type="InputDateType.DateTimeLocal"
-                   @bind-Value="timeEntry.End" class="form-control" />
+                   @bind-Value="ProjectTask.End" class="form-control" />
     </div>
     <div>
         <label for="project">Project</label>
-        <InputSelect id="project" @bind-Value="timeEntry.ProjectId" class="form-control">
+        <InputSelect id="project" @bind-Value="ProjectTask.ProjectId" class="form-control">
             @foreach (var project in ProjectService.Projects)
             {
                 <option value="@project.Id">@project.Name</option>
             }
         </InputSelect>
-        <ValidationMessage For="() => timeEntry.ProjectId" />
+        <ValidationMessage For="() => ProjectTask.ProjectId" />
     </div>
     @if (Id is not null)
     {
         <button type="button" class="btn btn-danger mt-2 mx-1"
-                @onclick="DeleteTimeEntry">
+                @onclick="DeleteProjectTask">
             Delete
         </button>
     }
@@ -52,7 +52,7 @@ else
     [Parameter]
     public int? Id { get; set; }
 
-    TimeEntryRequest timeEntry = new TimeEntryRequest();
+    ProjectTaskRequest ProjectTask = new ProjectTaskRequest();
 
     protected override void OnInitialized()
     {
@@ -63,8 +63,8 @@ else
     {
         if (Id is not null)
         {
-            var result = await TimeEntryService.GetTimeEntryById((int)Id);
-            timeEntry = new TimeEntryRequest
+            var result = await ProjectTaskService.GetProjectTaskById((int)Id);
+            ProjectTask = new ProjectTaskRequest
                 {
                     End = result.End,
                     Start = result.Start,
@@ -77,25 +77,25 @@ else
     {
         if (Id is null)
         {
-            await TimeEntryService.CreateTimeEntry(timeEntry);
-            NavigationManager.NavigateTo("/timeentries");
+            await ProjectTaskService.CreateProjectTask(ProjectTask);
+            NavigationManager.NavigateTo("/tasks");
         }
         else
         {
-            await TimeEntryService.UpdateTimeEntry((int)Id, timeEntry);
-            NavigationManager.NavigateTo("/timeentries");
+            await ProjectTaskService.UpdateProjectTask((int)Id, ProjectTask);
+            NavigationManager.NavigateTo("/tasks");
         }
     }
 
-    async Task DeleteTimeEntry()
+    async Task DeleteProjectTask()
     {
         var confirmed = await JSRuntime
             .InvokeAsync<bool>("confirm", "Do you really want to delete this entry?");
 
         @if (Id is not null && confirmed)
         {
-            await TimeEntryService.DeleteTimeEntry((int)Id);
-            NavigationManager.NavigateTo("/timeentries");
+            await ProjectTaskService.DeleteProjectTask((int)Id);
+            NavigationManager.NavigateTo("/tasks");
         }
     }
 

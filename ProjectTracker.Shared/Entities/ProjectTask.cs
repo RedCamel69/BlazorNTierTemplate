@@ -1,6 +1,6 @@
 ﻿namespace ProjectTracker.Shared.Entities
 {
-    public class TimeEntry : BaseEntity
+    public class ProjectTask : BaseEntity
     {
         public int? ProjectId { get; set; }
         public Project? Project { get; set; }

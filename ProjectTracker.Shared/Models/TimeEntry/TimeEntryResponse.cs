@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectTracker.Shared.Models.TimeEntry
+namespace ProjectTracker.Shared.Models.ProjectTask
 {
-    public record struct TimeEntryResponse(
+    public record struct ProjectTaskResponse(
             int Id,
             ProjectResponse Project,
             DateTime Start,

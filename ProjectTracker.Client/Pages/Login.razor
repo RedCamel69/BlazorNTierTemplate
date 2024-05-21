@@ -8,20 +8,20 @@
 <EditForm Model="loginRequest" OnValidSubmit="HandleSubmit">
 
     <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
-        <RadzenFormField Name="UserName" Text="UserName" Style="width: 100%;">
-            <RadzenTextBox @bind-Value="loginRequest.UserName" Style="width: 100%;" />
+        <RadzenFormField Name="UserName" Text="UserName" >
+            <RadzenTextBox @bind-Value="loginRequest.UserName"  />
         </RadzenFormField>
         <ValidationMessage For="() => loginRequest.UserName" />
     </RadzenColumn>
 
     <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
-        <RadzenFormField Name="Password" Text="Password" Style="width: 100%;">
-            <RadzenTextBox @bind-Value="loginRequest.Password" Style="width: 100%;" />
+        <RadzenFormField Name="Password" Text="Password">
+            <RadzenTextBox @bind-Value="loginRequest.Password" />
         </RadzenFormField>
         <ValidationMessage For="() => loginRequest.Password" />
     </RadzenColumn>
     <br />
-    <RadzenButton Text="Login" ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" />
+    <RadzenButton Text="Login" ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" class="rz-ripple" />
 
 </EditForm>
 

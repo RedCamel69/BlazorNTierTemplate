@@ -14,7 +14,7 @@ namespace ProjectTracker.API.Data
         {
            
 
-            modelBuilder.Entity<TimeEntry>().Navigation(c => c.Project).AutoInclude();
+            modelBuilder.Entity<ProjectTask>().Navigation(c => c.Project).AutoInclude();
             modelBuilder.Entity<Project>().Navigation(c => c.ProjectDetails).AutoInclude();
             base.OnModelCreating(modelBuilder);
 
@@ -79,7 +79,7 @@ namespace ProjectTracker.API.Data
             });
         }
 
-        public DbSet<TimeEntry> TimeEntries { get; set; }
+        public DbSet<ProjectTask> ProjectTasks { get; set; }
 
         public DbSet<Project> Projects { get; set; }
 

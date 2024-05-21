@@ -1,22 +1,21 @@
-﻿@page "/"
-@page "/timeentries"
+﻿@page "/tasks"
 @using Microsoft.AspNetCore.Components.QuickGrid
-@inject ITimeEntryService TimeEntryService
+@inject IProjectTaskService ProjectTaskService
 @inject NavigationManager NavigationManager
 @implements IDisposable
 @attribute [Authorize]
 
-<PageTitle>Time Entries</PageTitle>
-<h3>Time Entries Landing Page!</h3>
+<PageTitle>Tasks</PageTitle>
+<h1 class="display-6">Tasks</h1>
 
 <ProjectSelector />
 
-<button class="btn btn-primary mb-2" @onclick="CreateTimeEntry">
-    Create Time Entry
+<button class="btn btn-primary mb-2" @onclick="CreateTask">
+    Create Task
 </button>
 
-@* <QuickGrid Items="FilteredTimeEntries" Pagination="@pagination"> *@
-    <QuickGrid Items="FilteredTimeEntries">
+@* <QuickGrid Items="FilteredProjectTasks" Pagination="@pagination"> *@
+    <QuickGrid Items="FilteredProjectTasks">
     <PropertyColumn Property="t => t.Start" />
     <PropertyColumn Property="t => t.End" />
     <PropertyColumn Property="t => GetDuration(t.Start, t.End)" Title="Duration" />
@@ -37,7 +36,7 @@
     </TemplateColumn>
     <TemplateColumn>
         <button class="btn btn-primary"
-                onclick="@(() => EditTimeEntry(context.Id))">
+                onclick="@(() => EditProjectTask(context.Id))">
                 Edit
             <i class="bi bi-pencil"></i>
         </button>
@@ -55,14 +54,14 @@
     int projectId = 0;
     private string? projectFilter;
     PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
-    //GridItemsProvider<TimeEntryResponse>? timeEntryProvider;
+    //GridItemsProvider<ProjectTaskResponse>? ProjectTaskProvider;
 
 
-    IQueryable<TimeEntryResponse> FilteredTimeEntries
+    IQueryable<ProjectTaskResponse> FilteredProjectTasks
     {
         get
         {
-            var result = TimeEntryService.TimeEntries.AsQueryable();
+            var result = ProjectTaskService.ProjectTasks.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(projectFilter))
             {
@@ -76,8 +75,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await TimeEntryService.GetTimeEntriesByProject(projectId);
-        TimeEntryService.OnChange += StateHasChanged;
+        await ProjectTaskService.GetProjectTasksByProject(projectId);
+        ProjectTaskService.OnChange += StateHasChanged;
     }
 
     private string GetDuration(DateTime? start, DateTime? end)
@@ -102,16 +101,16 @@
 
     public void Dispose()
     {
-        TimeEntryService.OnChange -= StateHasChanged;
+        ProjectTaskService.OnChange -= StateHasChanged;
     }
 
-    private void CreateTimeEntry()
+    private void CreateTask()
     {
-        NavigationManager.NavigateTo("/timeentry");
+        NavigationManager.NavigateTo("/task");
     }
 
-    private void EditTimeEntry(int id)
+    private void EditProjectTask(int id)
     {
-        NavigationManager.NavigateTo($"/timeentry/{id}");
+        NavigationManager.NavigateTo($"/task/{id}");
     }
 }

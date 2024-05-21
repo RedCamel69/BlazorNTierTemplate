@@ -238,7 +238,7 @@ namespace ProjectTracker.API.Migrations
                     b.ToTable("ProjectDetails");
                 });
 
-            modelBuilder.Entity("ProjectTracker.Shared.Entities.TimeEntry", b =>
+            modelBuilder.Entity("ProjectTracker.Shared.Entities.ProjectTask", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -270,7 +270,7 @@ namespace ProjectTracker.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TimeEntries");
+                    b.ToTable("ProjectTasks");
                 });
 
             modelBuilder.Entity("ProjectTracker.Shared.Entities.User", b =>
@@ -342,13 +342,13 @@ namespace ProjectTracker.API.Migrations
                         {
                             Id = "AAAAAAAA-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e843959a-33d2-40a3-bbbb-aa75cd926e85",
+                            ConcurrencyStamp = "964c5780-ab0c-45b5-b7d4-d19f6092da5d",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJu72M+W3wE+YlxbjpwSBnR8LivD5Cxa/X8saI+h1kUAf2OL1TcEpjrhML6v5oKFGQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBt0n9ew+cg3j2WJJCWqkg6glkn6KnAsl8mRIoJZnhFJn4Oxz6ESVBnNHzAyt0ZDzg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -358,13 +358,13 @@ namespace ProjectTracker.API.Migrations
                         {
                             Id = "ZZZZZZZZ-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c57d0f12-e1dc-4368-861a-8d4aa7fe3969",
+                            ConcurrencyStamp = "b753644b-da24-41eb-b448-aa75cd5288c5",
                             Email = "user@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@EXAMPLE.COM",
                             NormalizedUserName = "USER@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEQSX0M/TdKQDl9VtI4H9Wh1RwSFQzJsXqGQ5kw91n2qPwm24sltgNWL4vg15d5UhQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENEsJruhh7G3rekuhTg9piiND02bMVKILPG7m2PVpUUWmMQ+HYt5g3v8hwgqIrQ1aw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -449,14 +449,14 @@ namespace ProjectTracker.API.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("ProjectTracker.Shared.Entities.TimeEntry", b =>
+            modelBuilder.Entity("ProjectTracker.Shared.Entities.ProjectTask", b =>
                 {
                     b.HasOne("ProjectTracker.Shared.Entities.Project", "Project")
-                        .WithMany("TimeEntries")
+                        .WithMany("ProjectTasks")
                         .HasForeignKey("ProjectId");
 
                     b.HasOne("ProjectTracker.Shared.Entities.User", "User")
-                        .WithMany("TimeEntries")
+                        .WithMany("ProjectTasks")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Project");
@@ -483,12 +483,12 @@ namespace ProjectTracker.API.Migrations
                 {
                     b.Navigation("ProjectDetails");
 
-                    b.Navigation("TimeEntries");
+                    b.Navigation("ProjectTasks");
                 });
 
             modelBuilder.Entity("ProjectTracker.Shared.Entities.User", b =>
                 {
-                    b.Navigation("TimeEntries");
+                    b.Navigation("ProjectTasks");
                 });
 #pragma warning restore 612, 618
         }
