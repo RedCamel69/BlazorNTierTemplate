@@ -19,6 +19,7 @@ and showcases some useful plugins available for Blazor WebAssembly.
 
 # Requirements
 Visual Studio 2022
+
 Sql Server Management Studio (Tested against 18.11.1)
 
 # Technologies covered
