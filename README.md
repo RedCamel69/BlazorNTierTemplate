@@ -24,10 +24,15 @@ Sql Server Management Studio (Tested against 18.11.1)
 
 # Technologies covered
 ASP.NET Core Web API
+
 ASP.NET Core Blazor WebAssembly
+
 EF Core
+
 ASP.NET Core Identity
+
 JWT
+
 
 ## Run Locally
 
