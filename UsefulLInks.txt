@@ -11,4 +11,72 @@ You can enable it by setting [Authorize] on your controller or action, or config
 api url - case sensitivity
 
 
+Requirements
+************
+Visual Studio 2022
+Sql Server management Studio (Tested against 18.11.1)
+
+
+Useage
+******
+Grab repository
+
+Run application - app.MigrateDatabase() in Program.cs means ef migrations run automatically crfeating your database
+
+The application demonstrates the use Microsoft Identity
+https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-8.0&tabs=visual-studio
+
+Two Users created:
+admin@example.com
+Admin123!
+
+user@example.com
+User123!
+
+Two Roles created:
+Admin
+User
+
+And users mapped accordingly.
+
+Admin user can see Users / Projects / Tasks tabs
+User can see just the Tasks tab.
+
+The Swagger UI can be used to create additional users
+https://localhost:xxxx/api/Account
+
+And then assign them additional roles if reqd
+
+
+Pages are protected through the Authorize attribute
+@attribute [Authorize(Roles = "Admin")]
+
+
+The supporting APIs ProjectTask and Project illustrate how an api may be secured through jwt token authentication
+Identity uses cookie authentication out of the box but works easily enough with jwt tokens,
+A nice video here https://youtu.be/Cet54urCj70?si=Mud9ynoU4a9xYyxC
+
+The LoginController.Login() methos checks the supplied credentgials against the Idedcntity credentials held in the database.
+A Loginresponse object is returned by the controller containing and indication of success and a generated jwt token if appropiate.
+The client side auth service then writes the token to local storage (using a handy Blazored.LocalStorage plugin).
+
+You can decode your jwt token here 
+https://jwt.io/
+
+
+Of aother interest, the app demonstrates a few other useful plugins. User feedback is handled by 
+https://github.com/Blazored/Toast
+
+Also the menu bar / header demonstrate Radzen components 
+https://blazor.radzen.com/
+a collection of nice free components which appear play nice with bootstrap.
+
+
+
+
+
+
+
+
+
 
