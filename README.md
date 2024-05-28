@@ -17,20 +17,16 @@ https://learn.microsoft.com/en-us/ef/core/
 
 and showcases some useful plugins available for Blazor WebAssembly.
 
-# requirements
+# Requirements
 Visual Studio 2022
 Sql Server Management Studio (Tested against 18.11.1)
 
-# technologies covered
+# Technologies covered
 ASP.NET Core Web API
 ASP.NET Core Blazor WebAssembly
 EF Core
 ASP.NET Core Identity
 JWT
-
-
-
- 
 
 
 ## Run Locally
