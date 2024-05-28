@@ -1,6 +1,6 @@
 
 # Blazor WebAssembly N-Tier Architecture
-# Project Tracker Demo application
+# Project Tracker Template
 
 A small demo .NET 8 application looking at structuring a Blazor Wasm solution according to the requirements of an n-tier architecture, appropiate for deploying to Azure Static Web Apps.
 
