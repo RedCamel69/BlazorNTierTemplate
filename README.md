@@ -29,7 +29,6 @@ EF Core
 ASP.NET Core Identity
 JWT
 
-
 ## Run Locally
 
 1. Clone the project
